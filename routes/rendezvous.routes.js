@@ -1,13 +1,16 @@
-const { getRendezvouss, createRendezvous, getRendezvous,deleteRendezvous,updateRendezvous,confirmRdv,finishRdv } = require("../controllers/rendezvous.controllers");
+const { getRendezvouss, createRendezvous, getRendezvous,deleteRendezvous,updateRendezvous,confirmRdv,finishRdv, getMyRdv } = require("../controllers/rendezvous.controllers");
+const verifyToken = require("../middleware/verifyToken.js")
 
 const router = require ("express").Router();
 router.get("/",getRendezvouss);
 router.get("/:rendezvousId",getRendezvous);
-router.post("/",createRendezvous);
+router.post("/",verifyToken,createRendezvous);
 router.delete("/:rendezvousId",deleteRendezvous);
 router.put("/:rendezvousId",updateRendezvous);
 router.put("/confirm/:rendezvousId",confirmRdv);
 router.put("/finish/:rendezvousId",finishRdv);
+router.get("/get/myrdv",verifyToken,getMyRdv);
+
 
 
 router.param("rendezvous", async (req, res, next, id) => {

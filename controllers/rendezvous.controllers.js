@@ -3,7 +3,6 @@ const rendezvousModels = require("../models/rendezvous.models")
 
 const createRendezvous = async (req,res) =>{
     const newRendezvous = new rendezvousModels({
-        service:req.body.service,
         date:req.body.date,
         patient:req.verifiedUser._id,
     });
@@ -72,6 +71,17 @@ const finishRdv= async (req,res)=>{
 			return res.status(500).json(error);
 		}
 };
+const getMyRdv = async (req, res) => {
+	try {
+		const rdv = await rendezvousModels.find ({
+			patient: { $in: [req.verifiedUser._id] },
+		});
+		return res.status(200).json(rdv);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+};
+
 
 module.exports.createRendezvous = createRendezvous;
 module.exports.getRendezvouss = getRendezvouss;
@@ -80,3 +90,4 @@ module.exports.deleteRendezvous = deleteRendezvous;
 module.exports.updateRendezvous = updateRendezvous;
 module.exports.confirmRdv = confirmRdv;
 module.exports.finishRdv = finishRdv;
+module.exports.getMyRdv = getMyRdv;
