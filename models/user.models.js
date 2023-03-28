@@ -2,9 +2,8 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
 	{
-		/* firstName: { type: String, maxlength: 128 },
-		lastName: { type: String, maxlength: 128 }, */
-		name: { type: String, maxlength: 128 },
+		firstName: { type: String, maxlength: 128 },
+		lastName: { type: String, maxlength: 128 }, 
 		email: {
 			type: String,
 			required: true,
@@ -12,20 +11,18 @@ const UserSchema = new mongoose.Schema(
 			index: true,
 			lowercase: true,
 		},
-		/* username: {
-			type: String,
-			unique: true,
-			lowercase: true,
-			index: true,
-			maxlength: 256,
-		}, */
+		gender:{type:String},
+        telephone:{type:String},
+		dateOfBirth:{type : Date},
 		password: { type: String, required: true, maxlength: 4096 },
-		lastLogin: { type: Date, default: Date.now },
-		isAdmin: { type: Boolean, default: false },
-		isDoctor: { type: Boolean, default: false },
-		isSecretary: { type: Boolean, default: false },
-		isPatient: { type: Boolean, default: false },
+		dateCreated: { type: Date, default: Date.now },
 		isEmailVerified: { type: Boolean, default: false },
+		profilePic : {type:String},
+		isPatient:{type:Boolean, default:false},
+		isSecretary:{type:Boolean, default:false},
+		isDoctor:{type:Boolean, default:false},
+		isAdmin:{type:Boolean, default:false},
+
 	},
 	{ timestamps: true }
 );

@@ -16,14 +16,11 @@ const redisIO = new Redis({
 const register = async (req, res) => {
 	try {
 		const existEmail = await userModels.findOne({ email: req.body.email });
-		const existusenamr = await userModels.findOne({ email: req.body.username });
 
 		if (existEmail) {
 			return res.status(422).json("Email already exist");
 		}
-		if (existusenamr) {
-			return res.status(422).json("usernae already exist");
-		}
+		
 		emailQueue.add(REGISTER_ASYNC_USER, req.body);
 		return res.status(202).json("account successfully created");
 	} catch (err) {
@@ -36,9 +33,7 @@ const login = async (req, res) => {
 	try {
 		if (isEmail(req.body.loginInfo)) {
 			existUser = await userModels.findOne({ email: req.body.loginInfo });
-		} else {
-			existUser = await userModels.findOne({ username: req.body.loginInfo });
-		}
+		} 
 
 		if (!existUser) {
 			return res.status(401).json("Wrong Email/Password");
@@ -56,8 +51,11 @@ const login = async (req, res) => {
 			{
 				_id: existUser._id,
 				email: existUser.email,
-				username: existUser.username,
 				isAdmin: existUser.isAdmin,
+				isDoctor: existUser.isDoctor,
+				isSecretary: existUser.isSecretary,
+				isPatient: existUser.isPatient,
+
 				isEmailVerified: existUser.isEmailVerified,
 			},
 			process.env.TOKEN_KEY,

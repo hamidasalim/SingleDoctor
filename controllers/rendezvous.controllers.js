@@ -5,6 +5,7 @@ const createRendezvous = async (req,res) =>{
     const newRendezvous = new rendezvousModels({
         date:req.body.date,
         patient:req.verifiedUser._id,
+
     });
     try{
         const savedRendezvous = await newRendezvous.save();
@@ -82,8 +83,25 @@ const getMyRdv = async (req, res) => {
 	}
 };
 
+const createRendezvousByStaf = async (req,res) =>{
+    const newRendezvous = new rendezvousModels({
+        date:req.body.date,
+        patient:req.body.patientid,
+
+    });
+    try{
+        const savedRendezvous = await newRendezvous.save();
+        return res.status(200).json(savedRendezvous);
+
+    }catch(error){
+        return res.status(500).json(error);
+    }
+};
+
 
 module.exports.createRendezvous = createRendezvous;
+module.exports.createRendezvousByStaf = createRendezvousByStaf;
+
 module.exports.getRendezvouss = getRendezvouss;
 module.exports.getRendezvous = getRendezvous;
 module.exports.deleteRendezvous = deleteRendezvous;

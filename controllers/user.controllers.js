@@ -1,6 +1,20 @@
 const userModels = require("../models/user.models");
 const secretaryModels= require("../models/secretary.models");
-
+/***** SECRETARY  */
+const createSecretary = async (req,res) =>{
+    const id=req.params.userId;
+	try{
+		const newSecretary = new secretaryModels({
+			salary : req.body.salary,
+			profil:id,
+			cin:req.body.cin,
+		});
+		const savedSecretary = await newSecretary.save();
+		return res.status(200).json(savedSecretary);
+		}catch(error){
+			return res.status(500).json(error);
+		}
+};
 
 const getSecretarys = async (req, res) => {
 	try {
@@ -43,6 +57,65 @@ const updateSecretary = async (req, res) => {
 	}
 };
 
+/* PATIENT */
+const createPatient = async (req,res) =>{
+    const id=req.params.userId;
+	try{
+		const newPatient = new patientModels({
+			salary : req.body.salary,
+			profil:id,
+			cin:req.body.cin,
+		});
+		const savedPatient = await newPatient.save();
+		return res.status(200).json(savedPatient);
+		}catch(error){
+			return res.status(500).json(error);
+		}
+};
+
+const getPatients = async (req, res) => {
+	try {
+		const patients = await patientModels.find();
+		return res.status(200).json(patients);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+};
+const getPatient = async (req, res) => {
+	const id = req.params.patientId;
+
+	try {
+		const patient = await patientModels.findById(id);
+		return res.status(200).json(patient);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+};
+const deletePatient = async (req, res) => {
+	const id = req.params.patientId;
+	try {
+		const sec = await patientModels.findById(id);
+		const user= await userModels.findByIdAndDelete(sec._id);
+		const patient = await patientModels.findByIdAndDelete(id);
+		return res.status(200).json(patient);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+};
+const updatePatient = async (req, res) => {
+	const id = req.params.patientId;
+	try {
+		const patient = await patientModels.findByIdAndUpdate(id, req.body, {
+			new: true,
+		});
+		return res.status(200).json(patient);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+}; 
+
+/* MAKE */
+
  const makeSecretary= async (req,res)=>{
 	const id=req.params.userId;
 	try{
@@ -67,19 +140,7 @@ const makePatient= async (req,res)=>{
 };
 
 
-const createSecretary = async (req,res) =>{
-    const id=req.params.userId;
-	try{
-		const newSecretary = new secretaryModels({
-			salary : req.body.salary,
-			profil:id,
-		});
-		const savedSecretary = await newSecretary.save();
-		return res.status(200).json(savedSecretary);
-		}catch(error){
-			return res.status(500).json(error);
-		}
-};
+
 
 
 

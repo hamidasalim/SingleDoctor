@@ -30,7 +30,10 @@ const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
 const presenceRoutes = require("./routes/presence.routes");
 const disponibleRoutes = require("./routes/disponible.routes");
-const serviceRoutes = require("./routes/service.routes");
+const secretaryRoutes = require("./routes/secretary.routes");
+const patientRoutes = require("./routes/patient.routes");
+
+
 
 
 
@@ -44,7 +47,8 @@ app.use("/auth",authRoutes);
 app.use("/user",userRoutes);
 app.use("/presence",presenceRoutes);
 app.use("/disponible",disponibleRoutes);
-app.use("/service",serviceRoutes);
+app.use("/secreatry",secretaryRoutes);
+app.use("/patient",patientRoutes);
 
 
 
