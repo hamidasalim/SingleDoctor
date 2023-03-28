@@ -3,9 +3,8 @@ const doctorModels = require("../models/doctor.models")
 
 const createDoctor = async (req,res) =>{
     const newDoctor = new doctorModels({
-        profil:req.verifiedUser._id,
+        profil:req.body.doctorid,
         bio:req.body.bio,
-        profilepic:req.body.profilepic,
     });
     try{
         const savedDoctor = await newDoctor.save();

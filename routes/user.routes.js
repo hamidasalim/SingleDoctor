@@ -3,13 +3,7 @@ const {
 	getUsers,
 	updateUser,
 	deleteUser,
-	getSecretary,
-	getSecretarys,
-	updateSecretary,
-	deleteSecretary,
-	makeSecretary,
-	createSecretary,
-	makePatient,
+
 } = require("../controllers/user.controllers");
 const secretaryModel = require("../models/secretary.models");
 const userModel = require("../models/user.models");
@@ -35,16 +29,4 @@ router.get("/", getUsers);
 router.get("/:userId", getUser);
 router.put("/:userId", updateUser);
 router.delete("/:userId", deleteUser);
-router.put("/makesecretary/:userId", makeSecretary);
-router.put("/makepatient/:userId", makePatient);
-
-
-router.get("/secretary", getSecretarys);
-router.get("/secretary/:userId", getSecretary);
-router.put("/secretary/:userId", updateSecretary);
-router.delete("/secretary/:userId", deleteSecretary);
-router.post("/secretary/:userId",createSecretary);
-
-
-
 module.exports = router;

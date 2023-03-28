@@ -32,6 +32,8 @@ const presenceRoutes = require("./routes/presence.routes");
 const disponibleRoutes = require("./routes/disponible.routes");
 const secretaryRoutes = require("./routes/secretary.routes");
 const patientRoutes = require("./routes/patient.routes");
+const doctorRoutes = require("./routes/doctor.routes");
+
 
 
 
@@ -49,6 +51,8 @@ app.use("/presence",presenceRoutes);
 app.use("/disponible",disponibleRoutes);
 app.use("/secreatry",secretaryRoutes);
 app.use("/patient",patientRoutes);
+app.use("/doctor",doctorRoutes);
+
 
 
 

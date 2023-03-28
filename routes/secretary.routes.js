@@ -28,13 +28,11 @@ router.param("secretary", async (req, res, next, id) => {
 });
 
 
-router.put("/makesecretary/:secretaryId", makeSecreatry);
-
 router.get("/secretary", getSecreatrys);
 router.get("/secretary/:secretaryId", getSecreatry);
 router.put("/secretary/:secretaryId", updateSecreatry);
 router.delete("/secretary/:secretaryId", deleteSecreatry);
-router.post("/secretary/:secretaryId",createSecreatry);
+router.post("/secretary/:secretaryId",createSecreatry,makeSecreatry);
 
 
 
