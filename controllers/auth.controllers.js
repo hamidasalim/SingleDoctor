@@ -51,89 +51,19 @@ const login = async (req, res) => {
     if (!validPassword) {
       return res.status(401).json("Wrong Email/Password");
     }
-    let token = null;
-    if (existUser.isAdmin == true) {
-      let extraUser = await adminModels.findOne({ profil: existUser.id });
-      token = jwt.sign(
-        {
-          _id: extraUser._id,
-          isAdmin: true,
-        },
-        process.env.TOKEN_KEY,
-        { expiresIn: "2 days" }
-      );
-      redisIO.set(token, extraUser._id, "ex", 3600 * 48);
-      extraUser.lastLogin = Date.now();
-      await extraUser.save();
-      return res.status(200).json({ user: extraUser, token: token });
-    } else {
-      if (existUser.isDoctor == true) {
-        let extraUser = await doctorModels.findOne({ profil: existUser.id });
-        token = jwt.sign(
-          {
-            _id: extraUser._id,
-            isDoctor: true,
-          },
-          process.env.TOKEN_KEY,
-          { expiresIn: "2 days" }
-        );
-        redisIO.set(token, extraUser._id, "ex", 3600 * 48);
-        extraUser.lastLogin = Date.now();
-        await extraUser.save();
-        return res.status(200).json({ user: extraUser, token: token });
-      } else {
-        if (existUser.isSecretary == true) {
-          let extraUser = await secretaryModels.findOne({ profil: existUser.id });
-          token = jwt.sign(
-            {
-              _id: extraUser._id,
-              isSecretary: true,
-            },
-            process.env.TOKEN_KEY,
-            { expiresIn: "2 days" }
-          );
-          redisIO.set(token, extraUser._id, "ex", 3600 * 48);
-          extraUser.lastLogin = Date.now();
-          await extraUser.save();
-          return res.status(200).json({ user: extraUser, token: token });
-        } else {
-          if (existUser.isPatient == true) {
-            let extraUser = await patientModels.findOne({ profil: existUser.id });
-            token = jwt.sign(
-              {
-                _id: extraUser._id,
-                isPatient: true,
-              },
-              process.env.TOKEN_KEY,
-              { expiresIn: "2 days" }
-            );
-            redisIO.set(token, extraUser._id, "ex", 3600 * 48);
-            extraUser.lastLogin = Date.now();
-            await extraUser.save();
-            return res.status(200).json({ user: extraUser, token: token });
-          }
 
           token = jwt.sign(
             {
               _id: existUser._id,
-              email: existUser.email,
-              isAdmin: existUser.isAdmin,
-              isDoctor: existUser.isDoctor,
-              isSecretary: existUser.isSecretary,
-              isPatient: existUser.isPatient,
-
-              isEmailVerified: existUser.isEmailVerified,
-            },
-            process.env.TOKEN_KEY,
-            { expiresIn: "2 days" }
-          );
-          redisIO.set(token, existUser._id, "ex", 3600 * 48);
-          existUser.lastLogin = Date.now();
-          await existUser.save();
-          return res.status(200).json({ user: existUser, token: token });
-        }
-      }
-    }
+				role:existUser.role
+			},
+			process.env.TOKEN_KEY,
+			{ expiresIn: "2 days" }
+		);
+		redisIO.set(token, existUser._id, "ex", 3600 * 48);
+		existUser.lastLogin = Date.now();
+		await existUser.save();
+		return res.status(200).json({ user: existUser, token: token });
   } catch (err) {
     return res.status(500).json(err);
   }
