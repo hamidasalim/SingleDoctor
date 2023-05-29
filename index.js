@@ -7,6 +7,26 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const compression = require("compression");
 
+/* var cors = require('cors')
+const corsOptions = {
+  origin: true,
+  credentials: true,
+  optionSuccessStatus:200,
+}
+app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
+app.listen(80, function(){
+  console.log('CORS-enabled web server listening on port 80');
+}); */
+
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions)) // Use this after the variable declaration
+
 
 //DB connection
 mongoose.connect(process.env.MONGO_DB_URI);
@@ -49,7 +69,7 @@ app.use("/auth",authRoutes);
 app.use("/user",userRoutes);
 app.use("/presence",presenceRoutes);
 app.use("/disponible",disponibleRoutes);
-app.use("/secreatry",secretaryRoutes);
+app.use("/secretary",secretaryRoutes);
 app.use("/patient",patientRoutes);
 app.use("/doctor",doctorRoutes);
 

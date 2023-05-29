@@ -18,6 +18,9 @@ module.exports.createAsyncUser = (userdata) => {
 				username: userdata.username,
 				email: userdata.email,
 				password: hashedPassword,
+				gender:userdata.gender,
+				telephone:userdata.telephone,
+				dateOfBirth:userdata.dateOfBirth,				
 			});
 
 			const savedUser = await newUser.save();

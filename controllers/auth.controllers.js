@@ -1,5 +1,4 @@
 const userModels = require("../models/user.models");
-const adminModels = require("../models/admin.models");
 const patientModels = require("../models/patient.models");
 const doctorModels = require("../models/doctor.models");
 const secretaryModels = require("../models/user.models");
@@ -32,38 +31,43 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
-  let existUser = null;
-  try {
-    if (isEmail(req.body.loginInfo)) {
-      existUser = await userModels.findOne({ email: req.body.loginInfo });
-    }
 
-    if (!existUser) {
-      return res.status(401).json("Wrong Email/Password");
-    }
-
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      existUser.password
-    );
-
-    if (!validPassword) {
-      return res.status(401).json("Wrong Email/Password");
-    }
-
-          token = jwt.sign(
-            {
-              _id: existUser._id,
-				role:existUser.role
-			},
-			process.env.TOKEN_KEY,
-			{ expiresIn: "2 days" }
-		);
-		redisIO.set(token, existUser._id, "ex", 3600 * 48);
-		existUser.lastLogin = Date.now();
-		await existUser.save();
-		return res.status(200).json({ user: existUser, token: token });
+  const login = async (req, res) => {
+    let existUser = null;
+    try {
+      if (isEmail(req.body.loginInfo)) {
+        existUser = await userModels.findOne({ email: req.body.loginInfo });
+      } else {
+        existUser = await userModels.findOne({ username: req.body.loginInfo });
+      }
+  
+      if (!existUser) {
+        return res.status(401).json("Wrong Email/Password");
+      }
+  
+      const validPassword = await bcrypt.compare(
+        req.body.password,
+        existUser.password
+      );
+  
+      if (!validPassword) {
+        return res.status(401).json("Wrong Email/Password");
+      }
+      const token = jwt.sign(
+        {
+          _id: existUser._id,
+          email: existUser.email,
+          username: existUser.username,
+          isEmailVerified: existUser.isEmailVerified,
+          role:existUser.role
+        },
+        process.env.TOKEN_KEY,
+        { expiresIn: "2 days" }
+      );
+      redisIO.set(token, existUser._id, "ex", 3600 * 48);
+      existUser.lastLogin = Date.now();
+      await existUser.save();
+      return res.status(200).json({ user: existUser, token: token });
   } catch (err) {
     return res.status(500).json(err);
   }

@@ -3,7 +3,7 @@ const secretaryModels= require("../models/secretary.models");
 
 
 const createSecreatry = async (req,res) =>{
-    const id=req.params.userId;
+    const id=req.params.secretaryId;
 	try{
 		const newSecreatry = new secretaryModels({
 			salary : req.body.salary,
@@ -19,7 +19,7 @@ const createSecreatry = async (req,res) =>{
 
 const getSecreatrys = async (req, res) => {
 	try {
-		const secretarys = await secretaryModels.find();
+		const secretarys = await secretaryModels.find().populate("profil");
 		return res.status(200).json(secretarys);
 	} catch (err) {
 		return res.status(500).json(err);
@@ -60,13 +60,10 @@ const updateSecreatry = async (req, res) => {
 
 
 const makeSecreatry= async (req,res)=>{
-	const id=req.params.userId;
+	const id=req.params.secretaryId;
 	try{
-		const user= await userModels.findByIdAndUpdate(id,{$set:{isSecreatry:true}});
-		if(user.isSecreatry != true){
-			const user1= await userModels.findByIdAndUpdate(id,{$set:{isSecreatry:true}});
-			return res.status(200).json(user1);
-		}
+		const user= await userModels.findByIdAndUpdate(id,{$set:{role:"secretary"}});
+		
 		return res.status(200).json(user);
 		}catch(error){
 			return res.status(500).json(error);

@@ -2,11 +2,13 @@ const mongoose = require("mongoose");
 
 const RendezvousSchema = new mongoose.Schema({
     date:{type: Date},
-    title:{type:String},
+    startTime:{type:String},
+    endTime:{type:String},
+    price:{type:String},
     isConfirmed:{type:Boolean, default:false},
     isFinished:{type:Boolean, default:false},
     patient:{type: mongoose.Schema.Types.ObjectId, ref: "User",required:true},
-    rdvType:{type:String}
+    type:{type:String}
 }
 ,
 	{ timestamps: true });

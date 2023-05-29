@@ -1,10 +1,17 @@
+const patientModels = require("../models/patient.models");
+const userModels = require("../models/user.models");
+
 const rendezvousModels = require("../models/rendezvous.models")
 
 
 const createRendezvous = async (req,res) =>{
     const newRendezvous = new rendezvousModels({
         date:req.body.date,
+        startTime:req.body.startTime,
+        endTime:req.body.startTime,
+        type:req.body.type,
         patient:req.verifiedUser._id,
+        price:req.body.price
 
     });
     try{
@@ -17,11 +24,13 @@ const createRendezvous = async (req,res) =>{
 };
 const getRendezvouss = async (req,res)=>  {
     try{
-        const rendezvouss = await rendezvousModels.find();
+        const rendezvouss = await rendezvousModels.find().populate("patient");
         return res.status(200).json(rendezvouss);
     }catch(error){
         return res.status(500).json(error);
     }
+
+    
 };
 const getRendezvous = async (req,res)=>  {
     const id = req.params.rendezvousId;
@@ -84,9 +93,16 @@ const getMyRdv = async (req, res) => {
 };
 
 const createRendezvousByStaf = async (req,res) =>{
+    const a= await  userModels.findOne({email: req.body.patient});
+    const pat=await   patientModels.findOne({profil: a});
+
     const newRendezvous = new rendezvousModels({
         date:req.body.date,
-        patient:req.body.patientid,
+        startTime:req.body.startTime,
+        endTime:req.body.endTime,
+        type:req.body.type,
+        patient:a._id,
+        price:req.body.price
 
     });
     try{

@@ -3,6 +3,7 @@ const {
 	getUsers,
 	updateUser,
 	deleteUser,
+	getUsersUser
 
 } = require("../controllers/user.controllers");
 const secretaryModel = require("../models/secretary.models");
@@ -26,7 +27,9 @@ router.param("user", async (req, res, next, id) => {
 });
 
 router.get("/", getUsers);
+router.get("/user/user", getUsersUser);
 router.get("/:userId", getUser);
 router.put("/:userId", updateUser);
 router.delete("/:userId", deleteUser);
+
 module.exports = router;

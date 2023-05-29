@@ -3,12 +3,11 @@ const patientModels= require("../models/patient.models");
 
 
 const createPatient = async (req,res) =>{
-    const id=req.params.userId;
+    const id=req.params.patientId;
 	try{
 		const newPatient = new patientModels({
-			salary : req.body.salary,
+			username:req.body.username,
 			profil:id,
-			cin:req.body.cin,
 		});
 		const savedPatient = await newPatient.save();
 		return res.status(200).json(savedPatient);
@@ -19,7 +18,7 @@ const createPatient = async (req,res) =>{
 
 const getPatients = async (req, res) => {
 	try {
-		const patients = await patientModels.find();
+		const patients = await patientModels.find().populate("profil");
 		return res.status(200).json(patients);
 	} catch (err) {
 		return res.status(500).json(err);
@@ -60,13 +59,12 @@ const updatePatient = async (req, res) => {
 
 
 const makePatient= async (req,res)=>{
-	const id=req.params.userId;
+	const id=req.params.patientId;
 	try{
-		const user= await userModels.findByIdAndUpdate(id,{$set:{isPatient:true}});
-		if(user.isPatient != true){
-			const user1= await userModels.findByIdAndUpdate(id,{$set:{isPatient:true}});
-			return res.status(200).json(user1);
-		}
+		console.log("this is id",req.params.userId)
+
+		const user= await userModels.findByIdAndUpdate(id,{$set:{role:"patient"}});
+		console.log(user)
 		return res.status(200).json(user);
 		}catch(error){
 			return res.status(500).json(error);

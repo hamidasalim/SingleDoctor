@@ -28,11 +28,13 @@ router.param("patient", async (req, res, next, id) => {
 });
 
 
-router.get("/patient", getPatients);
-router.get("/patient/:patientId", getPatient);
-router.put("/patient/:patientId", updatePatient);
-router.delete("/patient/:patientId", deletePatient);
-router.post("/patient/:patientId",createPatient,makePatient);
+router.get("/", getPatients);
+router.get("/:patientId", getPatient);
+router.put("/:patientId", updatePatient);
+router.delete("/:patientId", deletePatient);
+router.post("/:patientId",createPatient);
+router.put("/make/:patientId",makePatient);
+
 
 
 

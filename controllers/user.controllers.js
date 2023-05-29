@@ -8,6 +8,14 @@ const getUsers = async (req, res) => {
 		return res.status(500).json(err);
 	}
 };
+const getUsersUser = async (req, res) => {
+	try {
+		const users = await userModels.find({role:"user"});
+		return res.status(200).json(users);
+	} catch (err) {
+		return res.status(500).json(err);
+	}
+};
 const getUser = async (req, res) => {
 	const id = req.params.userId;
 
@@ -43,4 +51,5 @@ module.exports.getUsers = getUsers;
 module.exports.getUser = getUser;
 module.exports.deleteUser = deleteUser;
 module.exports.updateUser = updateUser;
+module.exports.getUsersUser=getUsersUser;
 

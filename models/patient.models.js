@@ -1,14 +1,8 @@
 const mongoose = require("mongoose");
 
 const PatientSchema = new mongoose.Schema(
-	{
-		username: {
-			type: String,
-			unique: true,
-			lowercase: true,
-			index: true,
-			maxlength: 256,
-		}, 
+	{ 
+		username : {type:String},
         profil:{type: mongoose.Schema.Types.ObjectId, ref: "User"},
 
 	},
