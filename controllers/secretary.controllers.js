@@ -52,6 +52,7 @@ const updateSecreatry = async (req, res) => {
 		const secretary = await secretaryModels.findByIdAndUpdate(id, req.body, {
 			new: true,
 		});
+		console.log(req.body,"this is reqbody")
 		return res.status(200).json(secretary);
 	} catch (err) {
 		return res.status(500).json(err);

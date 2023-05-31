@@ -5,7 +5,7 @@ const verifyToken = require("../middleware/verifyToken.js")
 const router = require ("express").Router();
 router.get("/",getDoctors);
 router.get("/:doctorId",getDoctor);
-router.post("/",verifyToken,createDoctor);
+router.post("/",createDoctor);
 router.delete("/:doctorId",deleteDoctor);
 router.put("/:doctorId",updateDoctor);
 

@@ -53,6 +53,10 @@ const disponibleRoutes = require("./routes/disponible.routes");
 const secretaryRoutes = require("./routes/secretary.routes");
 const patientRoutes = require("./routes/patient.routes");
 const doctorRoutes = require("./routes/doctor.routes");
+const conversationRoutes = require("./routes/conversation.routes");
+const messageRoutes = require("./routes/message.routes");
+
+
 
 
 
@@ -72,6 +76,10 @@ app.use("/disponible",disponibleRoutes);
 app.use("/secretary",secretaryRoutes);
 app.use("/patient",patientRoutes);
 app.use("/doctor",doctorRoutes);
+app.use("/conversation",conversationRoutes);
+app.use("/message",messageRoutes);
+
+
 
 
 
